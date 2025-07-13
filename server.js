@@ -1,13 +1,16 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import authRoutes from "./routes/authRoutes.js";
-import progressRoutes from "./routes/progressRoutes.js";
-import planRoutes from "./routes/planRoutes.js";
+// server.js
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+
+// Routes
+const authRoutes = require("./routes/authRoutes");
+const progressRoutes = require("./routes/progressRoutes");
+const planRoutes = require("./routes/planRoutes");
 
 // Firebase setup
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+const { initializeApp } = require("firebase/app");
+const { getFirestore } = require("firebase/firestore");
 
 // Load environment variables
 dotenv.config();
@@ -15,7 +18,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Firebase config (move to a separate file if needed)
+// Firebase config
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -38,9 +41,15 @@ app.use("/api/auth", authRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/plan", planRoutes);
 
+// Root route
+app.get("/", (req, res) => {
+  res.send("🚀 GearFit Backend is running!");
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`✅ Server is running on port ${PORT}`);
 });
+
 
 
